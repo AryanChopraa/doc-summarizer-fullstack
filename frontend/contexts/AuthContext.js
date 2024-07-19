@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = useCallback(async () => {
         try {
           const response = await api.get('/profile');
-          console.log(response.data);
           setUser(response.data);
         } catch (error) {
           console.error('Authentication check failed');
@@ -42,12 +41,11 @@ export const AuthProvider = ({ children }) => {
 
       const register = async (name, email, password) => {
         try {
-            console.log('Registering with:', { name, email, password });
+           
             const response = await api.post('auth/register', { name, email, password });
-            console.log('Registration response:', response.data);
-            await checkAuth(); // Add this line to update the user state after registration
+            await checkAuth(); 
             toast.success('Registered successfully');
-            return response.data; // Return the response data
+            return response.data;
         } catch (error) {
             console.error('Registration error:', error);
             const errorMessage = error.response?.data?.message || 'Registration failed';

@@ -38,8 +38,6 @@ export const SummaryProvider = ({ children }) => {
         response = await api.post('/summary/create', { text, summaryLength });
       }
 
-      console.log("this is response data", response.data);
-      console.log(typeof response.data);
 
       const { documentId } = response.data;
       return documentId;

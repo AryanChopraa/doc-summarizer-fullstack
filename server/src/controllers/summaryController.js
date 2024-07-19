@@ -35,10 +35,10 @@ const createSummary = async (req, res) => {
     } else {
       return res.status(400).json({ message: 'No file uploaded or text provided' });
     }
-    console.log(summaryLength);
+
 
     const response = await analyzeDoc(text, summaryLength);
-    console.log(typeof response);
+ 
 
     const document = await prisma.document.create({
       data: {

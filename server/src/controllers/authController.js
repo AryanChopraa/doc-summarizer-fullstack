@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 const { generateToken } = require("../utils/tokenUtils");
 
 const login = async (req, res) => {
-  console.log("reached here")
   const { email, password } = req.body;
 
   if (!email || !password) {
