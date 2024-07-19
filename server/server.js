@@ -27,6 +27,10 @@ app.use((req, res, next) => {
   
 app.use(morgan('dev'));
 
+app.options('/keep-me-alive', cors()); 
+app.get('/keep-me-alive', cors(), (req, res) => {
+  res.status(200).send('I am alive');
+});
 
 app.use("/api/v1", mainRouter);
 
