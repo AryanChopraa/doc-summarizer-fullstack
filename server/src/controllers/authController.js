@@ -21,7 +21,10 @@ const login = async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
+      secure: true,
+      sameSite: 'None',
       maxAge: 60 * 60 * 1000,
+      domain: 'doc-summarizer-fullstack.onrender.com'
     });
 
     return res.json({ message: "Login successful" });
@@ -63,8 +66,10 @@ const register = async (req, res) => {
 const logout = (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict'
+    secure: true,
+    sameSite: 'None',
+    path: '/',
+    domain: 'doc-summarizer-fullstack.onrender.com'
   });
   return res.json({ message: "Logged out successfully" });
 };
