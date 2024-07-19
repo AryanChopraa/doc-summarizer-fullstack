@@ -19,14 +19,15 @@ model User {
 }
 
 model Document {
-  id                String   @id @default(uuid())
-  userId            Int
-  user              User     @relation(fields: [userId], references: [id])
-  type              String
-  summary           String
-  sentimentAnalysis String
-  topicIdentification String
-  keywordExtraction String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id          String    @id @default(uuid())
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  keyInsights String[]  @default([])
+  keywords    String[]  @default([])
+  mainTopic   String?
+  sentiment   String?
+  subtopics   String[]  @default([])
+  summary     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }

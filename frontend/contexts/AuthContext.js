@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
           console.log(response.data);
           setUser(response.data);
         } catch (error) {
-          console.error('Authentication check failed:', error);
+          console.error('Authentication check failed');
           setUser(null);
         } finally {
           setLoading(false);
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
       const login = async (email, password) => {
         try {
           const response = await api.post('auth/login', { email, password });
-          await checkAuth(); // Fetch user data after successful login
+          await checkAuth(); 
           toast.success('Logged in successfully');
           return response.data;
         } catch (error) {
@@ -40,16 +40,23 @@ export const AuthProvider = ({ children }) => {
         }
       };
 
-  const register = async (name, email, password) => {
-    try {
-      const response = await api.post('auth/register', { name, email, password });
-      console.log(response.data);
-      toast.success('Registered successfully');
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Registration failed');
-      throw error;
-    }
-  };
+      const register = async (name, email, password) => {
+        try {
+            console.log('Registering with:', { name, email, password });
+            const response = await api.post('auth/register', { name, email, password });
+            console.log('Registration response:', response.data);
+            await checkAuth(); // Add this line to update the user state after registration
+            toast.success('Registered successfully');
+            return response.data; // Return the response data
+        } catch (error) {
+            console.error('Registration error:', error);
+            const errorMessage = error.response?.data?.message || 'Registration failed';
+            toast.error(errorMessage);
+            throw new Error(errorMessage);
+        }
+    };
+
+   
 
   const logout = async () => {
     try {
