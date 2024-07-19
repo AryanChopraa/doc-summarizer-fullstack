@@ -1,9 +1,12 @@
 const prisma = require("../../prismaClient");
 const multer = require('multer');
 const pdf = require('pdf-parse');
+const mammoth = require('mammoth');
 const {analyzeDoc} = require('../utils/googleSummarize');
 
 const upload = multer({ storage: multer.memoryStorage() });
+
+
 
 const createSummary = async (req, res) => {
   try {
@@ -20,6 +23,9 @@ const createSummary = async (req, res) => {
         text = pdfData.text;
       } else if (mimetype === 'text/plain' || mimetype === 'text/html') {
         text = buffer.toString('utf-8');
+      } else if (mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        const result = await mammoth.extractRawText({ buffer });
+        text = result.value;
       } else {
         return res.status(400).json({ message: 'Unsupported file type' });
       }
@@ -34,7 +40,6 @@ const createSummary = async (req, res) => {
     const response = await analyzeDoc(text, summaryLength);
     console.log(typeof response);
 
-    // Insert data into the database
     const document = await prisma.document.create({
       data: {
         userId: userId,

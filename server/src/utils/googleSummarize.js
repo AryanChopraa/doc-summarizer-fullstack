@@ -47,9 +47,12 @@ Please provide the following analysis:
 6. 10-15 important keywords from the document.
 7. 3-5 recommendations based on the content.
 
-Please ensure your response is in JSON format as per the specified schema.
+Please ensure your response is in JSON format as per the specified schema. NOTE: all fields are compulsory and If you don't provide a value it will break the app
 ### PDF CONTENT STARTS HERE####
-    ${pdfContent}`;
+    ${pdfContent}
+
+  Please ensure your response is in JSON format as per the specified schema. NOTE: all fields are compulsory and If you don't provide a value it will break the app    `;
+
 }
 
 
