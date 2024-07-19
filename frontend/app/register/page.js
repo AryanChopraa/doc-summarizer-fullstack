@@ -11,12 +11,13 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [name, setName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { register, user } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (user) {
-      router.push('/dashboard');
+      router.push('/dashboard/summary');
     }
   }, [user, router]);
 
@@ -26,11 +27,15 @@ export default function Register() {
       toast.error('Passwords do not match');
       return;
     }
+    setIsLoading(true);
     try {
       await register(name, email, password);
       router.push('/login');
     } catch (error) {
       console.error('Registration failed:', error);
+      toast.error('Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -39,7 +44,7 @@ export default function Register() {
       <h1 className="text-5xl font-thin mb-4">Register</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name" className="block  mb-2 font-thin">
+          <label htmlFor="name" className="block mb-2 font-thin">
             Name
           </label>
           <input
@@ -78,12 +83,12 @@ export default function Register() {
           />
         </div>
         <div>
-          <label htmlFor="password" className="block mb-2 font-thin">
+          <label htmlFor="passwordConfirmation" className="block mb-2 font-thin">
             Confirm Password
           </label>
           <input
             type="password"
-            id="password"
+            id="passwordConfirmation"
             value={passwordConfirmation}
             onChange={(e) => setPasswordConfirmation(e.target.value)}
             className="w-full px-6 py-4 border border-blue-800 rounded-2xl bg-gray-900"
@@ -91,8 +96,12 @@ export default function Register() {
           />
         </div>
         
-        <button type="submit" className="w-full px-6 py-4 bg-blue-800 rounded-2xl hover:bg-blue-600 font-thin">
-          Register
+        <button 
+          type="submit" 
+          className="w-full px-6 py-4 bg-blue-800 rounded-2xl hover:bg-blue-600 font-thin flex items-center justify-center"
+          disabled={isLoading}
+        >
+          {isLoading ? <AuthSpinner /> : 'Register'}
         </button>
 
       </form>
@@ -103,5 +112,11 @@ export default function Register() {
         </Link>
       </div>
     </div>
+  );
+}
+
+function AuthSpinner() {
+  return (
+    <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"></div>
   );
 }

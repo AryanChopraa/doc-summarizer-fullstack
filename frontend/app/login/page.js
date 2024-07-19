@@ -8,10 +8,11 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const { login, user } = useAuth();
-//
+
   useEffect(() => {
     if (user) {
       router.push('/dashboard/summary');
@@ -20,10 +21,13 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       await login(email, password);
     } catch (error) {
       console.error('Login failed:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -69,8 +73,16 @@ export default function Login() {
             Show password
           </label>
         </div>
-        <button type="submit" className="w-full px-6 py-4 bg-blue-800 rounded-2xl hover:bg-blue-600 font-thin">
-          Login
+        <button 
+          type="submit" 
+          className="w-full px-6 py-4 bg-blue-800 rounded-2xl hover:bg-blue-600 font-thin flex items-center justify-center"
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <AuthSpinner />
+          ) : (
+            'Login'
+          )}
         </button>
       </form>
       <div className='flex items-center justify-center mt-6 font-thin text-sm'>
@@ -80,5 +92,11 @@ export default function Login() {
         </Link>
       </div>
     </div>
+  );
+}
+
+function AuthSpinner() {
+  return (
+    <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"></div>
   );
 }
