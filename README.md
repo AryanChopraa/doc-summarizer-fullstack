@@ -2,9 +2,12 @@
 
 A powerful document summarization tool built with modern web technologies and AI integration.
 
-## Video Overview
+## Video Demo
+https://drive.google.com/file/d/1W65uqC5Keh-4_nvNPgEvnMHtfhvTmmzV/view?usp=sharing
 
-[Include a link to your demo video here]
+## Live Demo
+https://doc-summarizer-fullstack.vercel.app/
+
 
 ## Features
 
