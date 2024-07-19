@@ -92,10 +92,6 @@ Follow these steps to set up the project locally for development:
 
 After completing these steps, your local development environment should be set up and running.
 
-Live Demo : https://doc-summarizer-fullstack.vercel.app/
-
-Video Demo : https://drive.google.com/file/d/1W65uqC5Keh-4_nvNPgEvnMHtfhvTmmzV/view?usp=sharing
-
 
 
 
